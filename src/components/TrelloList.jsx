@@ -11,13 +11,12 @@ const TrelloList = ({ addNewCard, column, index, listId }) => {
                 <div {...provided.droppableProps} ref={provided.innerRef} style={style.container}>
                     <h4>{column.title}</h4>
                     {column.items.map((card, index) =>
-                        <div>
-                            <TrelloCard text={card.text} key={card.id} id={card.id} index={index}/>
-                        </div>)}
+                            <TrelloCard text={card.text} key={card.id} id={card.id} index={index} />
+                        )}
                     <TrelloActionButton addNewCard={addNewCard} columnName={column.title} buttontitle="Add Card" />
                     {provided.placeholder}
                 </div>
-)}
+            )}
         </Droppable>
     );
 };

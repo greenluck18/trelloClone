@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { Draggable } from "react-beautiful-dnd";
 
 const TrelloCard = ({ id, text, index }) => {
-    console.log("id", id)
+    // console.log("id", id)
     return (
         <Draggable draggableId={String(id)} index={index}>
             {provided => (

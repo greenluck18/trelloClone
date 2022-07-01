@@ -16,7 +16,7 @@ const itemsDone = [
     { id: uuidv4(), text: "Eat" }
 ]
 
-const columns =
+const columnsFromBackend =
 {
     [uuidv4()]: {
         title: "ToDo",
@@ -31,13 +31,12 @@ const columns =
 
 const App = () => {
 
-    const [boards, setBoards] = useState(columns);
+    const [columns, setBoards] = useState(columnsFromBackend);
 
     // const [boards, setBoards] = useState([
     //     { id: 1, title: "ToDo", items: [{ id: 1, text: "Buy apples" }, { id: 2, text: "Wash cat" }, { id: 3, text: "information" }] },
     //     { id: 2, title: "Done", items: [{ id: 1, text: "Grab Crab" }, { id: 2, text: "Eat" }] }
     // ])
-
 
     // let numberOfItems = 0;
     // columns.forEach(el => {
@@ -52,31 +51,63 @@ const App = () => {
         }
     }
 
-    const onDragEnd = () => {
-        //TODO
-    }
+    const onDragEnd = (result, columns, setBoards) => {
+        if (!result.destination) return;
+        const {source, destination} = result;
+        if(source.droppableId !== destination.droppableId) {
+            const sourceColumn = columns[source.droppableId];
+            const destinationColumn = columns[destination.droppableId];
+            const sourceItems = [...sourceColumn.items];
+            const destItems = [...destinationColumn.items];
+            const[removed] = sourceItems.splice(source.index, 1)
+            destItems.splice(destination.index, 0, removed)
+            setBoards({
+                ...columns,
+                [source.droppableId] : {
+                    ...sourceColumn,
+                    items : sourceItems
+                },
+                [destination.droppableId] : {
+                    ...destinationColumn,
+                    items : destItems
+                }
+            })
+        }else {
+            const column = columns[source.droppableId];
+            const copiedItems = [...column.items]
+            const [removed] = copiedItems.splice(source.index, 1)
+            copiedItems.splice(destination.index, 0, removed)
+            setBoards({
+                ...columns,
+                [source.droppableId] : {
+                    ...column,
+                    items : copiedItems
+                }
+            })
+        }
+    };
 
     const createPost = (newPost, columnName) => {
         let board = Object.entries(columns).find(el => {
-             if (el[1].title == columnName) {
+            if (el[1].title == columnName) {
                 el[1].items.push(newPost)
-                console.log(el)
-             }
-            })
+                // console.log(el)
+            }
+        })
         setBoards([...Object.entries(columns)])
     }
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-        <div className="App">
-            <h1>Trello Clone</h1>
-            <div style={styles.listsContainer}>
-                {Object.entries(columns).map(([columnId, column], index) => {
-                    return (
-                        <TrelloList addNewCard={createPost} key={columnId} column={column} index={index} listId={columnId}/>)
-                })}
+        <DragDropContext onDragEnd={result => onDragEnd(result, columns, setBoards)}>
+            <div className="App">
+                <h1>Trello Clone</h1>
+                <div style={styles.listsContainer}>
+                    {Object.entries(columns).map(([columnId, column], index) => {
+                        return (
+                            <TrelloList addNewCard={createPost} key={columnId} column={column} index={index} listId={columnId} />)
+                    })}
+                </div>
             </div>
-        </div>
         </DragDropContext>
     );
 }
