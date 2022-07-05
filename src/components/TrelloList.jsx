@@ -3,7 +3,18 @@ import TrelloCard from "./TrelloCard";
 import TrelloActionButton from "./TrelloActionButton";
 import { Droppable } from "react-beautiful-dnd";
 
-const TrelloList = ({ addNewCard, column, index, listId , editPost, deletePost}) => {
+const style = {
+    container: {
+        backgroundColor: "#FFFFF0",
+        borderRadius: 3,
+        width: 300,
+        padding: 8,
+        height: "100%",
+        marginRight: 8
+    }
+}
+
+const TrelloList = ({ addNewCard, column, listId , editPost, deletePost}) => {
 
     return (
         <Droppable droppableId={String(listId)}>
@@ -21,14 +32,4 @@ const TrelloList = ({ addNewCard, column, index, listId , editPost, deletePost})
     );
 };
 
-const style = {
-    container: {
-        backgroundColor: "#FFFFF0",
-        borderRadius: 3,
-        width: 300,
-        padding: 8,
-        height: "100%",
-        marginRight: 8
-    }
-}
 export default TrelloList;

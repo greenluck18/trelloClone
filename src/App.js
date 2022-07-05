@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css"
-import ReactDOM from 'react-dom';
 import TrelloList from "./components/TrelloList";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { DragDropContext } from "react-beautiful-dnd"
 import { v4 as uuidv4 } from 'uuid';
-import TrelloCard from "./components/TrelloCard";
 
-const itemsFrom = [
-]
-const itemsDone = [
 
-]
+
+const itemsFrom = []
+const itemsDone = []
+let actions = []
+
+
 
 const columnsFromBackend =
 {
@@ -24,21 +24,29 @@ const columnsFromBackend =
     }
 }
 
+const styles = {
+    listsContainer: {
+        display: "flex",
+        flexDirection: "row",
+        marginRight: 8,
+        padding: "6px 8px 16px 10px"
+    },
+    text: {
+        textAlign: "center",
+        textSize: "40px",
+        color: "black",
+        fontFamily: "Monospace",
+        textTransform: "uppercase"
+    }
+}
+
 
 const App = () => {
 
     const [columns, setBoards] = useState(columnsFromBackend);
 
-    const styles = {
-        listsContainer: {
-            display: "flex",
-            flexDirection: "row",
-            marginRight: 8,
-            padding: "6px 8px 16px 10px"
-        }
-    }
-
     const onDragEnd = (result, columns, setBoards) => {
+
         if (!result.destination) return;
         const { source, destination } = result;
         if (source.droppableId !== destination.droppableId) {
@@ -66,7 +74,6 @@ const App = () => {
             const copiedItems = [...column.items]
             const [removed] = copiedItems.splice(source.index, 1)
             copiedItems.splice(destination.index, 0, removed)
-
             setBoards({
                 ...columns,
                 [source.droppableId]: {
@@ -85,13 +92,12 @@ const App = () => {
                 }
             })
         }
-
         setBoards({
             ...columns
         })
     }
-
     const editPost = (newText, listId) => {
+
         if (newText.id) {
             if (newText.text.length > 0) {
                 const column = columns[listId];
@@ -114,7 +120,6 @@ const App = () => {
                 ...columns
             })
         }
-
     }
 
     const deletePost = (deleteCard, listId) => {
@@ -122,7 +127,6 @@ const App = () => {
         const copiedItems = [...column.items]
         copiedItems.map(el => {
             if (el.id == deleteCard.id) {
-
                 copiedItems.splice(copiedItems.indexOf(el), 1)
             }
         })
@@ -133,21 +137,23 @@ const App = () => {
                 items: copiedItems
             }
         })
-
     }
 
     return (
-        <DragDropContext onDragEnd={result => onDragEnd(result, columns, setBoards)}>
-            <div className="App">
-                <h1>Trello Clone</h1>
-                <div style={styles.listsContainer}>
-                    {Object.entries(columns).map(([columnId, column], index) => {
-                        return (
-                            <TrelloList addNewCard={createPost} deletePost={deletePost} key={columnId} column={column} index={index} listId={columnId} editPost={editPost} />)
-                    })}
+            <DragDropContext onDragEnd={result => onDragEnd(result, columns, setBoards)} >
+                <div className="App" >
+                    <h1 style={styles.text}>Trello Clone</h1>
+                    <div style={styles.listsContainer}>
+                        {Object.entries(columns).map(([columnId, column], index) => {
+                            return (
+
+                                <TrelloList addNewCard={createPost} deletePost={deletePost} key={columnId} column={column} index={index} listId={columnId} editPost={editPost} />)
+                        })}
+                    </div>
+
                 </div>
-            </div>
-        </DragDropContext>
+            </DragDropContext>
     );
 }
+
 export default App;
