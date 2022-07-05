@@ -14,14 +14,12 @@ const CardForm = ({ addNewCard, columnName, buttontitle, create, closeCard}) => 
     })
    
 
+
     const addNewPost = (e) => {
-        // post = { ...post, id: +number.lastItemId + 1 }
         e.preventDefault()
         const newPost = {
-            ...post, id:  uuidv4()
-        }
-        // console.log(newPost)
-
+             id:  uuidv4() , text : post.text.trim()
+        }       
         addNewCard(newPost, columnName)
         setPost({
             id: '',
@@ -78,6 +76,7 @@ const CardForm = ({ addNewCard, columnName, buttontitle, create, closeCard}) => 
                 style={{ marginLeft: 8, cursor: "pointer" }}>close</Icon>
 
         </div>
+
     </div>)
 }
 
