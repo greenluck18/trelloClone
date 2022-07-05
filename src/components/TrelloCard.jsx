@@ -4,11 +4,27 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Draggable } from "react-beautiful-dnd";
 import Icon from '@mui/material/Icon';
-import IconButton from '@mui/material/IconButton';
-import { getTabPanelUnstyledUtilityClass } from "@mui/base";
-import TextareaAutosize from 'react-textarea-autosize';
-import Button from '@mui/material/Button';
 import EditCard from "./EditCard";
+
+let style = {
+    container: {
+        marginBottom: 8
+    },
+    icon: {
+        color: "lightgray",
+        padding: 0,
+        margin: 0,
+        marginLeft: 230,
+        position: "absolute",
+        flexDirection: "row",
+        cursor: "pointer"
+    },
+    formButtonGroup: {
+        marginTop: 8,
+        display: "flex",
+        alignItems: "center"
+    }
+}
 
 
 const TrelloCard = ({ id, text, index, editPost, listId, deletePost }) => {
@@ -25,8 +41,6 @@ const TrelloCard = ({ id, text, index, editPost, listId, deletePost }) => {
     const clickclick = (e) => {
         e.preventDefault();
         setEditForm({ ...editForm, formOpen: true })
-
-       
     }
 
     const toggleHover = (e) => {
@@ -73,26 +87,5 @@ const TrelloCard = ({ id, text, index, editPost, listId, deletePost }) => {
         </div>)
     } 
 };
-
-
-let style = {
-    container: {
-        marginBottom: 8
-    },
-    icon: {
-        color: "lightgray",
-        padding: 0,
-        margin: 0,
-        marginLeft: 230,
-        position: "absolute",
-        flexDirection: "row",
-        cursor: "pointer"
-    },
-    formButtonGroup: {
-        marginTop: 8,
-        display: "flex",
-        alignItems: "center"
-    }
-}
 
 export default TrelloCard;

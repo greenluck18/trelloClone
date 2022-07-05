@@ -10,20 +10,6 @@ const EditCard = ({ text, closeForm, editPost, cardId, listId, deletePost }) => 
     })
     const [message, setMessage] = useState({ text });
 
-    const toggleHover = (e) => {
-        e.target.style.color = "green"
-    }
-
-    const toggleLeave = (e) => {
-        e.target.style.color = "lightgray"
-    }
-    const closeEdit = (e) => {
-        // e.target.style.display = "none"
-        var el = document.getElementsByClassName('editMode')[0]
-        setForm({ ...form, formOpen: false })
-        el.style.display = "none"
-    }
-
     const close = (e) => {
         e.preventDefault()
         const newForm = {
