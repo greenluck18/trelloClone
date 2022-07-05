@@ -9,7 +9,7 @@ import TrelloCard from "./components/TrelloCard";
 const itemsFrom = [
 ]
 const itemsDone = [
-   
+
 ]
 
 const columnsFromBackend =
@@ -29,22 +29,12 @@ const App = () => {
 
     const [columns, setBoards] = useState(columnsFromBackend);
 
-    // const [boards, setBoards] = useState([
-    //     { id: 1, title: "ToDo", items: [{ id: 1, text: "Buy apples" }, { id: 2, text: "Wash cat" }, { id: 3, text: "information" }] },
-    //     { id: 2, title: "Done", items: [{ id: 1, text: "Grab Crab" }, { id: 2, text: "Eat" }] }
-    // ])
-
-    // let numberOfItems = 0;
-    // columns.forEach(el => {
-    //     numberOfItems = +numberOfItems + (el.items.length)
-    // })
-
     const styles = {
         listsContainer: {
             display: "flex",
             flexDirection: "row",
             marginRight: 8,
-            padding : "6px 8px 16px 10px"
+            padding: "6px 8px 16px 10px"
         }
     }
 
@@ -95,36 +85,54 @@ const App = () => {
                 }
             })
         }
-  
+
         setBoards({
             ...columns
         })
     }
 
     const editPost = (newText, listId) => {
-        if(newText.id){
-        if (newText.text.length > 0) {
-            const column = columns[listId];
-            const copiedItems = [...column.items]
-          
-            copiedItems.map(el => {
-                if (el.id == newText.id) {
-                    el.text = newText.text
-                }
-            })
-            setBoards({
-                ...columns,
-                [listId]: {
-                    ...column,
-                    items: copiedItems
-                }
-            })
-        }
-    } else {
+        if (newText.id) {
+            if (newText.text.length > 0) {
+                const column = columns[listId];
+                const copiedItems = [...column.items]
+                copiedItems.map(el => {
+                    if (el.id == newText.id) {
+                        el.text = newText.text
+                    }
+                })
+                setBoards({
+                    ...columns,
+                    [listId]: {
+                        ...column,
+                        items: copiedItems
+                    }
+                })
+            }
+        } else {
             setBoards({
                 ...columns
             })
         }
+
+    }
+
+    const deletePost = (deleteCard, listId) => {
+        const column = columns[listId];
+        const copiedItems = [...column.items]
+        copiedItems.map(el => {
+            if (el.id == deleteCard.id) {
+
+                copiedItems.splice(copiedItems.indexOf(el), 1)
+            }
+        })
+        setBoards({
+            ...columns,
+            [listId]: {
+                ...column,
+                items: copiedItems
+            }
+        })
 
     }
 
@@ -135,7 +143,7 @@ const App = () => {
                 <div style={styles.listsContainer}>
                     {Object.entries(columns).map(([columnId, column], index) => {
                         return (
-                            <TrelloList addNewCard={createPost} key={columnId} column={column} index={index} listId={columnId} editPost={editPost} />)
+                            <TrelloList addNewCard={createPost} deletePost={deletePost} key={columnId} column={column} index={index} listId={columnId} editPost={editPost} />)
                     })}
                 </div>
             </div>

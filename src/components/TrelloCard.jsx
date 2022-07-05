@@ -10,7 +10,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Button from '@mui/material/Button';
 import EditCard from "./EditCard";
 
-const TrelloCard = ({ id, text, index, editPost, listId }) => {
+
+const TrelloCard = ({ id, text, index, editPost, listId, deletePost }) => {
     const [form, setForm] = useState({
         formOpen: false,
         text: ""
@@ -24,7 +25,7 @@ const TrelloCard = ({ id, text, index, editPost, listId }) => {
     const clickclick = (e) => {
         e.preventDefault();
         setEditForm({ ...editForm, formOpen: true })
-        console.log(editForm)
+
        
     }
 
@@ -45,7 +46,7 @@ const TrelloCard = ({ id, text, index, editPost, listId }) => {
 
     if (editForm.formOpen === true) {
         return (<div >
-            <EditCard text={text} closeForm={closeForm} editPost={editPost} cardId={id} listId={listId} />
+           <EditCard deletePost={deletePost} text={text} closeForm={closeForm} editPost={editPost} cardId={id} listId={listId} />
         </div>)
     }
     if (form.formOpen === false) {
@@ -68,7 +69,7 @@ const TrelloCard = ({ id, text, index, editPost, listId }) => {
         );
     } if (form.formOpen === true) {
         return (<div >
-            <EditCard text={text} closeForm={closeForm} editPost={editPost} cardId={id} listId={listId} />
+            <EditCard deletePost={deletePost} text={text} closeForm={closeForm} editPost={editPost} cardId={id} listId={listId} />
         </div>)
     } 
 };

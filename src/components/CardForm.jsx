@@ -76,6 +76,7 @@ const CardForm = ({ addNewCard, columnName, buttontitle, create, closeCard}) => 
                 style={{ marginLeft: 8, cursor: "pointer" }}>close</Icon>
 
         </div>
+
     </div>)
 }
 

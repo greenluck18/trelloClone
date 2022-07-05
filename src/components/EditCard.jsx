@@ -8,7 +8,7 @@ import CardForm from './CardForm';
 
 
 
-const EditCard = ({ text, closeForm, editPost, cardId, listId}) => {
+const EditCard = ({ text, closeForm, editPost, cardId, listId, deletePost}) => {
     const [post, setPost] = useState({ id: cardId , text: '' })
     const [form, setForm] = useState({
         formOpen: false,
@@ -60,6 +60,15 @@ const EditCard = ({ text, closeForm, editPost, cardId, listId}) => {
 
         editPost(newText, listId)
     }
+    const DeleteCards = () => {
+        const deleteCard = {
+            ...post
+        }
+        deletePost(deleteCard, listId)
+        setPost(
+            { id: cardId , text: '' }
+        )
+    }
 
     return (
         <div >
@@ -94,8 +103,18 @@ const EditCard = ({ text, closeForm, editPost, cardId, listId}) => {
             <Button
                 onMouseDown={EditCards}
                 variant="contained"
-                style={{ color: "white", backgroundColor: "#5aac44", }} >Save
+                style={{ color: "white", backgroundColor: "#5aac44", marginBottom : 8}} >Edit
             </Button>
+          
+            <Button 
+                onMouseDown={DeleteCards}
+                variant="contained"
+                style={{ color: "white", backgroundColor: "#CD5C5C", marginLeft : 8, marginBottom : 8}} >Delete card
+                {/* <Icon
+                onClick={close}
+                >delete</Icon> */}
+            </Button>
+            
             </div>
         </div>
 
